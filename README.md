@@ -1,70 +1,48 @@
-# Getting Started with Create React App
+### Controlled Component
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+In React, the difference between controlled and uncontrolled components is in how they handle data flow and how they update their state.
 
-## Available Scripts
+Controlled components are those whose values are controlled by React's state. They receive their current value via props and notify changes through event handlers. This means that their state is always in sync with React's state. To update the value of a controlled component, the onChange event must be triggered, which will update the state and re-render the component.
 
-In the project directory, you can run:
+For example, in a controlled input component, the value is passed in as a prop, and when the input changes, an event handler updates the state with the new value:
 
-### `yarn start`
+```
+import React, { useState } from 'react';
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+function ControlledInput() {
+  const [inputValue, setInputValue] = useState('');
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  function handleChange(event) {
+    setInputValue(event.target.value);
+  }
 
-### `yarn test`
+  return (
+    <input type="text" value={inputValue} onChange={handleChange} />
+  );
+}
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+On the other hand, uncontrolled components store their values in the DOM instead of in React's state. They do not receive their current value via props, and changes are not monitored through event handlers. Instead, to retrieve their values, you have to use the DOM API, such as getElementById or querySelector. This means that their state is not always in sync with React's state.
 
-### `yarn build`
+For example, in an uncontrolled input component, the value is not passed in as a prop, and you can retrieve the value using the DOM API:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+import React, { useRef } from 'react';
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+function UncontrolledInput() {
+  const inputRef = useRef(null);
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  function handleClick() {
+    const inputValue = inputRef.current.value;
+    console.log(inputValue);
+  }
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  return (
+    <div>
+      <input type="text" ref={inputRef} />
+      <button onClick={handleClick}>Log Value</button>
+    </div>
+  );
+}
+```
+Overall, controlled components provide a more predictable data flow and are easier to test, while uncontrolled components can be useful for simple forms with default values or for integrating with non-React code.
