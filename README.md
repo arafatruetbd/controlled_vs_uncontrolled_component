@@ -21,7 +21,7 @@ function ControlledInput() {
   );
 }
 ```
-
+### Uncontrolled Component
 On the other hand, uncontrolled components store their values in the DOM instead of in React's state. They do not receive their current value via props, and changes are not monitored through event handlers. Instead, to retrieve their values, you have to use the DOM API, such as getElementById or querySelector. This means that their state is not always in sync with React's state.
 
 For example, in an uncontrolled input component, the value is not passed in as a prop, and you can retrieve the value using the DOM API:
